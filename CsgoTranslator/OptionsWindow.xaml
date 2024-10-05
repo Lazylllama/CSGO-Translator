@@ -6,45 +6,120 @@
         xmlns:local="clr-namespace:CsgoTranslator"
         mc:Ignorable="d"
         Title="CSGO-Translator - Options" Height="389.302" Width="664.304">
-    <Grid>
-        <Label Content="Install location:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,11,0,0"/>
-        <TextBox x:Name="TbFolderPath" HorizontalAlignment="Left" Height="23" Margin="104,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="542"/>
 
-        <Label Content="Language code:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,46,0,0"/>
-        <TextBox x:Name="TbLang" HorizontalAlignment="Left" Height="23" Margin="104,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="198"/>
-        <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="310,53,0,0" Height="22">           
+    <Window.Resources>
+        <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="#161616"/>
+        <SolidColorBrush x:Key="SecondaryColor" Color="#2B2B2B"/>
+        <SolidColorBrush x:Key="BorderBrushColor" Color="#28292d"/>
+        <SolidColorBrush x:Key="PrimaryTextColor" Color="#FFDEDEDE"/>
+
+
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+        </Style>
+        
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
+        </Style>
+
+        <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Background" Value="#28292d"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColor}"/>
+            <Setter Property="Padding" Value="6 3"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Cursor" Value="IBeam"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="txtBorder"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="5"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                SnapsToDevicePixels="True">
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+
+    <Grid Background="{DynamicResource PrimaryBackgroundColor}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="52*"/>
+            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="517*"/>
+            <ColumnDefinition Width="43*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Style="{DynamicResource LabelStyle}" Content="Install location:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,14,0,0" Grid.ColumnSpan="2" Foreground="#FFDEDEDE"/>
+        <TextBox Style="{DynamicResource TextBoxStyle}" x:Name="TbFolderPath" Margin="52,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="522" Grid.ColumnSpan="3" Foreground="#FFDEDEDE" Grid.Column="1"/>
+
+        <Label Style="{DynamicResource LabelStyle}" Content="Language code:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,49,0,0" Grid.ColumnSpan="2" Foreground="#FFDEDEDE"/>
+        <TextBox Style="{DynamicResource TextBoxStyle}" x:Name="TbLang" Margin="52,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="198" Foreground="#FFDEDEDE" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBlock Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="205,53,0,0" Height="22">           
             <Hyperlink NavigateUri="https://cloud.google.com/translate/docs/languages" RequestNavigate="Hyperlink_RequestNavigate">
                 <Run Text="View list of language codes"/>
                 <InlineUIContainer />
             </Hyperlink>
         </TextBlock>
-        <Label Content="Own username:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,81,0,0"/>
-        <TextBox x:Name="TbOwnUsername" TextChanged="TbOwnUsername_TextChanged" HorizontalAlignment="Left" Height="23" Margin="104,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="542"/>
-        <Label Content="Required for ignoring own messages and allowing commands from self" HorizontalAlignment="Left" Margin="102,102,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="10"/>
+        <Label Style="{DynamicResource LabelStyle}" Content="Own username:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,84,0,0" Grid.ColumnSpan="2" Foreground="#FFDEDEDE"/>
+        <TextBox Style="{DynamicResource TextBoxStyle}" x:Name="TbOwnUsername" TextChanged="TbOwnUsername_TextChanged" Margin="52,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="286" Foreground="#FFDEDEDE" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBlock IsHitTestVisible="False" Text="For ignoring own messages and using self option" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,90,0,0" Foreground="DarkGray" Grid.Column="2">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=TbOwnUsername}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
 
-        <Label Content="Ignore own messages:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,132,0,0"/>
-        <CheckBox x:Name="CbIgnoreOwnMessages" HorizontalAlignment="Left" Margin="143,138,0,0" VerticalAlignment="Top"/>
+        <Label Style="{DynamicResource LabelStyle}" Content="Ignore own messages:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,131,0,0" Grid.ColumnSpan="3" Foreground="#FFDEDEDE"/>
+        <CheckBox x:Name="CbIgnoreOwnMessages" HorizontalAlignment="Left" Margin="38,138,0,0" VerticalAlignment="Top" Grid.Column="2"/>
 
-        <Label Content="Telnet settings (requires additional launch option)" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <GridSplitter HorizontalAlignment="Left" Height="1" Margin="10,193,0,0" VerticalAlignment="Top" Width="636" Background="Black"/>
+        <Label Style="{DynamicResource LabelStyle}" Content="Telnet settings (requires additional launch option)" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.ColumnSpan="3" Foreground="White"/>
+        <GridSplitter HorizontalAlignment="Left" Height="1" Margin="10,193,0,0" VerticalAlignment="Top" Width="636" Background="White" Grid.ColumnSpan="4"/>
 
-        <Label Content="Send translations of:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,203,0,0"/>
-        <CheckBox x:Name="CbTransFromAll" Content="all-chat" HorizontalAlignment="Left" Margin="143,211,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="CbTransFromTeam" Content="team-chat" HorizontalAlignment="Left" Margin="215,211,0,0" VerticalAlignment="Top"/>
+        <Label Style="{DynamicResource LabelStyle}" Content="Send translations of:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,203,0,0" Grid.ColumnSpan="3" Foreground="#FFDEDEDE"/>
+        <CheckBox x:Name="CbTransFromAll" Content="all-chat" HorizontalAlignment="Left" Margin="38,211,0,0" VerticalAlignment="Top" Grid.Column="2" Foreground="#FFDEDEDE"/>
+        <CheckBox x:Name="CbTransFromTeam" Content="team-chat" HorizontalAlignment="Left" Margin="110,211,0,0" VerticalAlignment="Top" Grid.Column="2" Foreground="#FFDEDEDE"/>
 
-        <Label Content="Send translations to:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,235,0,0"/>
-        <RadioButton x:Name="RbTransToAll" GroupName="TransTo" Content="all-chat" HorizontalAlignment="Left" Margin="143,242,0,0" VerticalAlignment="Top"/>
-        <RadioButton x:Name="RbTransToTeam" GroupName="TransTo" Content="team-chat" HorizontalAlignment="Left" Margin="215,242,0,0" VerticalAlignment="Top"/>
+        <Label Style="{DynamicResource LabelStyle}" Content="Send translations to:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,235,0,0" Grid.ColumnSpan="3" Foreground="#FFDEDEDE"/>
+        <RadioButton x:Name="RbTransToAll" GroupName="TransTo" Content="all-chat" HorizontalAlignment="Left" Margin="38,242,0,0" VerticalAlignment="Top" Grid.Column="2" Foreground="#FFDEDEDE"/>
+        <RadioButton x:Name="RbTransToTeam" GroupName="TransTo" Content="team-chat" HorizontalAlignment="Left" Margin="110,242,0,0" VerticalAlignment="Top" Grid.Column="2" Foreground="#FFDEDEDE"/>
 
-        <Label Content="Telnet port:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,268,0,0"/>
-        <TextBox x:Name="TbTelnetPort" PreviewTextInput="TbTelnetPort_OnPreviewTextInput" HorizontalAlignment="Left" Height="23" Margin="104,272,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="542"/>
+        <Label Style="{DynamicResource LabelStyle}" Content="Telnet port:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,272,0,0" Grid.ColumnSpan="2" Foreground="#FFDEDEDE"/>
+        <TextBox Style="{DynamicResource TextBoxStyle}" x:Name="TbTelnetPort" PreviewTextInput="TbTelnetPort_OnPreviewTextInput" Margin="33,272,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="71" Foreground="#FFDEDEDE" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBlock IsHitTestVisible="False" Text="2121" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="45,277,0,0" Foreground="DarkGray" Grid.Column="1" Grid.ColumnSpan="2">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=TbTelnetPort}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
 
-        <Label Content="Allow commands from:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,300,0,0"/>
-        <RadioButton x:Name="RbCommandsTeam" GroupName="CommandsFrom" Content="team-chat" HorizontalAlignment="Left" Margin="199,306,0,0" VerticalAlignment="Top"/>
-        <RadioButton x:Name="RbCommandsBoth" GroupName="CommandsFrom" Content="team-chat &amp; all-chat" HorizontalAlignment="Left" Margin="287,306,0,0" VerticalAlignment="Top"/>
-        <RadioButton x:Name="RbCommandsSelf" GroupName="CommandsFrom" Content="self" HorizontalAlignment="Left" Margin="147,306,0,0" VerticalAlignment="Top"/>
+        <Label Style="{DynamicResource LabelStyle}" Content="Allow commands from:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,300,0,0" Grid.ColumnSpan="3" Foreground="#FFDEDEDE"/>
+        <RadioButton x:Name="RbCommandsTeam" GroupName="CommandsFrom" Content="team-chat" HorizontalAlignment="Left" Margin="94,306,0,0" VerticalAlignment="Top" Grid.Column="2" Foreground="#FFDEDEDE"/>
+        <RadioButton x:Name="RbCommandsBoth" GroupName="CommandsFrom" Content="team-chat &amp; all-chat" HorizontalAlignment="Left" Margin="182,306,0,0" VerticalAlignment="Top" Grid.Column="2" Foreground="#FFDEDEDE"/>
+        <RadioButton x:Name="RbCommandsSelf" GroupName="CommandsFrom" Content="self" HorizontalAlignment="Left" Margin="42,306,0,0" VerticalAlignment="Top" Grid.Column="2" Foreground="#FFDEDEDE"/>
 
-        <Button Content="Set default" HorizontalAlignment="Left" Margin="483,328,0,0" VerticalAlignment="Top" Width="75" Click="BtnSetDefault_Click"/>
-        <Button Content="Save" HorizontalAlignment="Left" Margin="571,328,0,0" VerticalAlignment="Top" Width="75" Click="BtnSaveOptions_Click"/>
+        <Button Content="Set default" HorizontalAlignment="Left" Margin="378,328,0,0" VerticalAlignment="Top" Width="75" Click="BtnSetDefault_Click" Grid.Column="2" Background="#FF2B2B2B" BorderBrush="#21000000"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="466,328,0,0" VerticalAlignment="Top" Width="75" Click="BtnSaveOptions_Click" Grid.Column="2" Grid.ColumnSpan="2" Background="#FF2B2B2B" BorderBrush="#21000000"/>
     </Grid>
 </Window>

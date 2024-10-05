@@ -16,6 +16,7 @@ namespace CsgoTranslator
      *Interaction logic for OptionsWindow.xaml
      * </summary>
      */
+
     public partial class OptionsWindow 
     {
         private ChatType TransToRadioButtons
